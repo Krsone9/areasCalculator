@@ -5,10 +5,9 @@ import java.text.Normalizer;
 
 public class Main {
 	public static String normalizar(String texto) {
-
-	// Normaliza la cadena a su forma "descompuesta"
+        // Con NFD se separa la letra en cuestión del carácter diacrítico (ejemplo 'á' pasa a ser 'a' '´')
 		String textoNormalizado = Normalizer.normalize(texto, Normalizer.Form.NFD);
-	// Elimina los caracteres diacríticos (como tildes)
+	    // Elimina los caracteres diacríticos (como tildes)
 		return textoNormalizado.replaceAll("\\p{M}", "");
 	}
 
@@ -31,10 +30,15 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         	try {
                 System.out.println("Bienvenido");
+                System.out.println("Si en algún momento desea salir escriba 'salir'");
                 while(true) {
                     System.out.println("Introduce el polígono cuya área quieras calcular (círculo, cuadrado, triángulo, rectángulo): ");
                     String poligono = normalizar(sc.nextLine().trim());
-                    if (!poligono.trim().isEmpty()) {
+                    if(poligono.trim().equalsIgnoreCase("salir")) {
+                        System.out.println("Saliendo de la calculadora... ¡Hasta pronto!");
+                        sc.close();
+                        break;
+                    } else if (!poligono.trim().isEmpty()) {
                         switch (poligono.toLowerCase()) {
                             case "triangulo":
                                 System.out.print("Introduce el valor de la base: ");
