@@ -17,11 +17,11 @@ class CalculadoraAreas {
         double elevarCuadrado = Math.pow(lado, 2);
         return elevarCuadrado;
     }
-    private static double calculoApotema (int numerolados, double lado){
+    private static double calculoApotema (double numerolados, double lado){
         double apotema = lado/ (2 * Math.tan(Math.PI/numerolados));
         return apotema;
     }
-    public double areaPoligonoRegular(int numeroLados, double lado){
+    public double areaPoligonoRegular(double numeroLados, double lado){
         double perimetro = numeroLados * lado;
         double area = (calculoApotema(numeroLados, lado) * perimetro)/2;
         return area;
@@ -29,98 +29,161 @@ class CalculadoraAreas {
     }
 }
 
-class ModificadorEntrada {
-    private static String normalizarEntrada(String entrada) {
-        // Con NFD se separa la letra en cuestión del carácter diacrítico (ejemplo: 'á' pasa a ser 'a' '´')
-        String entradaNormalizada = Normalizer.normalize(entrada, Normalizer.Form.NFD);
-        // Elimina los caracteres diacríticos (como tildes)
-        return entradaNormalizada.replaceAll("\\p{M}", "");
+
+class ProcesarFiguras {
+    CalculadoraAreas triangulo = new CalculadoraAreas();
+    CalculadoraAreas cuadrado = new CalculadoraAreas();
+    CalculadoraAreas rectangulo = new CalculadoraAreas();
+    CalculadoraAreas circulo = new CalculadoraAreas();
+    CalculadoraAreas poligonoRegular = new CalculadoraAreas();
+    EntradaDatos paramTriangulo = new EntradaDatos();
+    EntradaDatos paramCuadrado = new EntradaDatos();
+    EntradaDatos paramRectangulo = new EntradaDatos();
+    EntradaDatos paramCirculo = new EntradaDatos();
+    EntradaDatos paramPoligonoRegular = new EntradaDatos();
+
+    public double procesarTriangulo() {
+        double [] datos = paramTriangulo.parametrosTriangulo();
+        double area = triangulo.areaTriangulo(datos[0], datos[1]);
+        System.out.print("Área del triángulo: ");
+        System.out.println(area);
+        return area;
     }
-    private static String eliminarEspaciosEntrada(String entrada) {
-        // Hacemos que la entrada solo tenga un espacio para evitar que falle
-        String espaciosEliminados = entrada.replaceAll("\\s+", " ");
+    public double procesarCuadrado() {
+        double [] datos = paramCuadrado.parametrosCuadrado();
+        double area = cuadrado.areaCuadrado(datos[0]);
+        System.out.print("Área del cuadrado: ");
+        System.out.println(area);
+        return area;
+    }
+    public double procesarRectangulo() {
+        double[] datos = paramRectangulo.parametrosRectangulo();
+        double area = rectangulo.areaTriangulo(datos[0], datos[1]);
+        System.out.print("Área del rectángulo: ");
+        System.out.println(area);
+        return area;
+    }
+    public double procesarCirculo() {
+        double[] datos = paramCirculo.parametrosCirculo();
+        double area = circulo.areaCirculo(datos[0]);
+        System.out.print("Área del círculo: ");
+        System.out.println(area);
+        return area;
+    }
+    public double procesarPoligonoRegular() {
+        double[] datos = paramPoligonoRegular.parametrosPoligonoRegular();
+        double area = poligonoRegular.areaPoligonoRegular(datos[0], datos[1]);
+        System.out.print("Área del rectángulo: ");
+        System.out.println(area);
+        return area;
+    }
+}
+class EntradaDatos {
+    Scanner sc = new Scanner(System.in);
+    ModificadorEntradaDatos EntradaDatos = new ModificadorEntradaDatos();
+
+    public String elegirFigura() {
+        System.out.println("Introduzca la figura cuya área quiera calcular (círculo, cuadrado, triángulo, rectángulo, polígono regular): ");
+        String figura = EntradaDatos.procesarEntradaDatos(sc.nextLine());
+        return figura;
+    }
+
+    public double[] parametrosTriangulo() {
+        System.out.print("Introduzca el valor de la base: ");
+        double baseT = Double.parseDouble(sc.nextLine());
+        System.out.print("Introduzca el valor de la altura: ");
+        double alturaT = Double.parseDouble(sc.nextLine());
+        return new double[]{baseT, alturaT};
+    }
+
+    public double[] parametrosCuadrado() {
+        System.out.print("Introduzca el valor del lado: ");
+        double lado = Double.parseDouble(sc.nextLine());
+        return new double [] {lado};
+    }
+    public double [] parametrosRectangulo() {
+        System.out.print("Introduzca el valor de la base: ");
+        double baseR =  Double.parseDouble(sc.nextLine());
+        System.out.print("Introduzca el valor de la altura: ");
+        double alturaR =  Double.parseDouble(sc.nextLine());
+        return new double[] {baseR, alturaR};
+    }
+    public double[] parametrosCirculo() {
+        System.out.print("Introduzca el valor del radio: ");
+        double radio = Double.parseDouble(sc.nextLine());
+        return new double[]{radio};
+    }
+    public double [] parametrosPoligonoRegular() {
+        System.out.println("Introduzca el número de lados: ");
+        double numeroLados = Double.parseDouble(sc.nextLine());
+        System.out.println("Introduzca la longitud del lado: ");
+        double ladoP = Double.parseDouble(sc.nextLine());
+        System.out.println("La apotema se calcula automáticamente");
+        return new double[]{numeroLados, ladoP};
+    }
+}
+class ModificadorEntradaDatos {
+    private static String normalizarEntradaDatos(String EntradaDatos) {
+        // Con NFD se separa la letra en cuestión del carácter diacrítico (ejemplo: 'á' pasa a ser 'a' '´')
+        String EntradaDatosNormalizada = Normalizer.normalize(EntradaDatos, Normalizer.Form.NFD);
+        // Elimina los caracteres diacríticos (como tildes)
+        return EntradaDatosNormalizada.replaceAll("\\p{M}", "");
+    }
+    private static String eliminarEspaciosEntradaDatos(String EntradaDatos) {
+        // Hacemos que la EntradaDatos solo tenga un espacio para evitar que falle
+        String espaciosEliminados = EntradaDatos.replaceAll("\\s+", " ");
         return espaciosEliminados;
     }
-    public String procesarEntrada(String entrada) {
-        String entradaProcesada = eliminarEspaciosEntrada(normalizarEntrada(entrada.trim().toLowerCase()));
-        return entradaProcesada;
+    public String procesarEntradaDatos(String EntradaDatos) {
+        String EntradaDatosProcesada = eliminarEspaciosEntradaDatos(normalizarEntradaDatos(EntradaDatos.trim().toLowerCase()));
+        return EntradaDatosProcesada;
     }
 }
 
-
-
 public class Main {
-	public static void main(String[] args) {
-        //Entrada figura = new Entrada();
-        ModificadorEntrada entrada = new ModificadorEntrada();
-        CalculadoraAreas rectangulo = new CalculadoraAreas();
-        CalculadoraAreas cuadrado = new CalculadoraAreas();
-        CalculadoraAreas triangulo = new CalculadoraAreas();
-        CalculadoraAreas poligonoRegular = new CalculadoraAreas();
-        CalculadoraAreas circulo = new CalculadoraAreas();
+    public static void main(String[] args) {
+        EntradaDatos figura = new EntradaDatos();
         Scanner sc = new Scanner(System.in);
-
-        	try {
-                System.out.println("Bienvenido");
-                System.out.println("Si en algún momento desea salir escriba 'salir'");
-                while(true) {
-                    System.out.println("Introduzca la figura cuya área quiera calcular (círculo, cuadrado, triángulo, rectángulo, polígono regular): ");
-                    String figura = entrada.procesarEntrada(sc.nextLine());
-                    if(figura.equals("salir")) {
-                        System.out.println("Saliendo de la calculadora... ¡Hasta pronto!");
-                        sc.close();
-                        break;
-                    } else if (!figura.isEmpty()) {
-                        switch (figura) {
-                            case "triangulo":
-                                System.out.print("Introduzca el valor de la base: ");
-                                double baseT = sc.nextDouble();
-                                System.out.print("Introduzca el valor de la altura: ");
-                                double alturaT = sc.nextDouble();
-                                System.out.println("Área del triángulo: " + triangulo.areaTriangulo(baseT,alturaT));
-                                sc.nextLine(); // Limpiar buffer
-                                break;
-                            case "rectangulo":
-                                System.out.print("Introduzca el valor de la base: ");
-                                double baseR = sc.nextDouble();
-                                System.out.print("Introduzca el valor de la altura: ");
-                                double alturaR = sc.nextDouble();
-                                System.out.println("Área del rectángulo: " + rectangulo.areaRectangulo(baseR, alturaR));
-                                sc.nextLine(); // Limpiar buffer
-                                break;
-                            case "cuadrado":
-                                System.out.print("Introduzca el valor del lado: ");
-                                double lado = sc.nextDouble();
-                                System.out.println("Área del cuadrado: " + cuadrado.areaCuadrado(lado));
-                                sc.nextLine(); // Limpiar buffer
-                                break;
+        ProcesarFiguras procesador = new ProcesarFiguras();
+        try {
+            System.out.println("Bienvenido");
+            System.out.println("Si en algún momento desea salir escriba 'salir'");
+            while (true) {
+                // Almacenamos la solicitud en una variable
+                String figuraElegida = figura.elegirFigura();
+                if (figuraElegida.equals("salir")) {
+                    System.out.println("Saliendo de la calculadora... ¡Hasta pronto!");
+                    sc.close();
+                    break;
+                } else if (!figuraElegida.isEmpty()) {
+                    switch (figuraElegida) {
+                        case "triangulo":
+                            procesador.procesarTriangulo();
+                            break;
+                        case "rectangulo":
+                            procesador.procesarRectangulo();
+                            break;
+                        case "cuadrado":
+                            procesador.procesarCuadrado();
+                            break;
                             case "circulo":
-                                System.out.println("Introduzca el valor del radio: ");
-                                double radio = sc.nextDouble();
-                                System.out.println("El área del círculo es: " + circulo.areaCirculo(radio));
-                                sc.nextLine(); // Limpiar el buffer
+                                procesador.procesarCirculo();
                                 break;
                             case "poligono regular":
-                                System.out.println("Introduzca el número de lados: ");
-                                int numeroLados = sc.nextInt();
-                                System.out.println("Introduzca la longitud del lado: ");
-                                double ladoP = sc.nextDouble();
-                                System.out.println("La apotema se calcula automáticamente");
-                                System.out.println("El área del polígono regular en cuestión es: " + poligonoRegular.areaPoligonoRegular(numeroLados, ladoP));
-                                sc.nextLine(); // Limpiamos el buffer
+                                procesador.procesarPoligonoRegular();
                                 break;
                             default:
-                                System.out.println("Entrada no válida. Por favor, inténtelo de nuevo.");
+                                System.out.println("EntradaDatos no válida. Por favor, inténtelo de nuevo.");
                                 continue;
-                        }
-                        break;
-                    } else {
-                        System.out.println("Entrada vacía.");
                     }
+                    break;
+                } else {
+                    System.out.println("EntradaDatos vacía.");
                 }
-        	} catch (Exception e) {
-            		System.out.println("Error de entrada: " + e.getMessage());
-        	}
+            }
+        } catch (Exception e) {
+            System.out.println("Error de EntradaDatos: " + e.getMessage());
+        }
 
         sc.close();
     }
