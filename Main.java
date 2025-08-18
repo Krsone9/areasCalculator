@@ -17,7 +17,7 @@ class CalculadoraAreas {
         double elevarCuadrado = Math.pow(lado, 2);
         return elevarCuadrado;
     }
-    static double calculoApotema (int numerolados, double lado){
+    private static double calculoApotema (int numerolados, double lado){
         double apotema = lado/ (2 * Math.tan(Math.PI/numerolados));
         return apotema;
     }
@@ -30,22 +30,29 @@ class CalculadoraAreas {
 }
 
 class ModificadorEntrada {
-    public String normalizarEntrada(String entrada) {
+    private static String normalizarEntrada(String entrada) {
         // Con NFD se separa la letra en cuestión del carácter diacrítico (ejemplo: 'á' pasa a ser 'a' '´')
         String entradaNormalizada = Normalizer.normalize(entrada, Normalizer.Form.NFD);
         // Elimina los caracteres diacríticos (como tildes)
         return entradaNormalizada.replaceAll("\\p{M}", "");
     }
-    public String eliminarEspaciosEntrada(String entrada) {
+    private static String eliminarEspaciosEntrada(String entrada) {
         // Hacemos que la entrada solo tenga un espacio para evitar que falle
         String espaciosEliminados = entrada.replaceAll("\\s+", " ");
         return espaciosEliminados;
     }
+    public String procesarEntrada(String entrada) {
+        String entradaProcesada = eliminarEspaciosEntrada(normalizarEntrada(entrada.trim().toLowerCase()));
+        return entradaProcesada;
+    }
 }
+
+
 
 public class Main {
 	public static void main(String[] args) {
-        ModificadorEntrada modEntrada = new ModificadorEntrada();
+        //Entrada figura = new Entrada();
+        ModificadorEntrada entrada = new ModificadorEntrada();
         CalculadoraAreas rectangulo = new CalculadoraAreas();
         CalculadoraAreas cuadrado = new CalculadoraAreas();
         CalculadoraAreas triangulo = new CalculadoraAreas();
@@ -58,13 +65,13 @@ public class Main {
                 System.out.println("Si en algún momento desea salir escriba 'salir'");
                 while(true) {
                     System.out.println("Introduzca la figura cuya área quiera calcular (círculo, cuadrado, triángulo, rectángulo, polígono regular): ");
-                    String figura = modEntrada.eliminarEspaciosEntrada(modEntrada.normalizarEntrada(sc.nextLine().trim()));
-                    if(figura.trim().equalsIgnoreCase("salir")) {
+                    String figura = entrada.procesarEntrada(sc.nextLine());
+                    if(figura.equals("salir")) {
                         System.out.println("Saliendo de la calculadora... ¡Hasta pronto!");
                         sc.close();
                         break;
-                    } else if (!figura.trim().isEmpty()) {
-                        switch (figura.toLowerCase()) {
+                    } else if (!figura.isEmpty()) {
+                        switch (figura) {
                             case "triangulo":
                                 System.out.print("Introduzca el valor de la base: ");
                                 double baseT = sc.nextDouble();
