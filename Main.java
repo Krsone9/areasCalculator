@@ -5,7 +5,7 @@ import java.text.Normalizer;
 
 class CalculadoraAreas {
     public double areaCirculo(double radio) {
-        return radio * Math.pow(Math.PI, 2);
+        return Math.PI * Math.pow(radio, 2);
     }
     public double areaTriangulo(double base, double altura) {
         return (base * altura)/2;
@@ -17,15 +17,14 @@ class CalculadoraAreas {
         double elevarCuadrado = Math.pow(lado, 2);
         return elevarCuadrado;
     }
-    private static double calculoApotema (double numerolados, double lado){
+    private static double calculoApotema (int numerolados, double lado){
         double apotema = lado/ (2 * Math.tan(Math.PI/numerolados));
         return apotema;
     }
-    public double areaPoligonoRegular(double numeroLados, double lado){
+    public Number areaPoligonoRegular(int numeroLados, double lado){
         double perimetro = numeroLados * lado;
         double area = (calculoApotema(numeroLados, lado) * perimetro)/2;
         return area;
-
     }
 }
 
@@ -58,7 +57,7 @@ class ProcesarFiguras {
     }
     public double procesarRectangulo() {
         double[] datos = paramRectangulo.parametrosRectangulo();
-        double area = rectangulo.areaTriangulo(datos[0], datos[1]);
+        double area = rectangulo.areaRectangulo(datos[0], datos[1]);
         System.out.print("Área del rectángulo: ");
         System.out.println(area);
         return area;
@@ -71,9 +70,11 @@ class ProcesarFiguras {
         return area;
     }
     public double procesarPoligonoRegular() {
-        double[] datos = paramPoligonoRegular.parametrosPoligonoRegular();
-        double area = poligonoRegular.areaPoligonoRegular(datos[0], datos[1]);
-        System.out.print("Área del rectángulo: ");
+        Object[] datos = paramPoligonoRegular.parametrosPoligonoRegular();
+        int numeroLados = (int) datos[0];
+        double lado = (double) datos[1];
+        double area = poligonoRegular.areaPoligonoRegular(numeroLados, lado).doubleValue();
+        System.out.print("Área del polígono regular: ");
         System.out.println(area);
         return area;
     }
@@ -113,13 +114,13 @@ class EntradaDatos {
         double radio = Double.parseDouble(sc.nextLine());
         return new double[]{radio};
     }
-    public double [] parametrosPoligonoRegular() {
+    public Object [] parametrosPoligonoRegular() {
         System.out.println("Introduzca el número de lados: ");
-        double numeroLados = Double.parseDouble(sc.nextLine());
+        int numeroLados = Integer.parseInt(sc.nextLine());
         System.out.println("Introduzca la longitud del lado: ");
         double ladoP = Double.parseDouble(sc.nextLine());
         System.out.println("La apotema se calcula automáticamente");
-        return new double[]{numeroLados, ladoP};
+        return new Object[]{numeroLados, ladoP};
     }
 }
 class ModificadorEntradaDatos {
@@ -166,15 +167,15 @@ public class Main {
                         case "cuadrado":
                             procesador.procesarCuadrado();
                             break;
-                            case "circulo":
-                                procesador.procesarCirculo();
-                                break;
-                            case "poligono regular":
-                                procesador.procesarPoligonoRegular();
-                                break;
-                            default:
-                                System.out.println("EntradaDatos no válida. Por favor, inténtelo de nuevo.");
-                                continue;
+                        case "circulo":
+                            procesador.procesarCirculo();
+                            break;
+                        case "poligono regular":
+                            procesador.procesarPoligonoRegular();
+                            break;
+                        default:
+                            System.out.println("EntradaDatos no válida. Por favor, inténtelo de nuevo.");
+                            continue;
                     }
                     break;
                 } else {
