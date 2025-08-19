@@ -2,22 +2,6 @@ package programas.calcuradolaAreas;
 import java.util.Scanner;
 import java.text.Normalizer;
 
-class valoresEntrada {
-    private int numeroLados;
-    private double base;
-    private double altura;
-    private double lado;
-    private double radio;
-    public double getRadio(){
-        return radio;
-    }
-    public double parametroCircunferencia(double radioUsuario) {
-        this.radio = radioUsuario;
-        return 0;
-    }
-
-}
-
 class CalculadoraAreas {
     public double areaCirculo(double radio) {
 
