@@ -1,16 +1,34 @@
 package programas.calcuradolaAreas;
-
 import java.util.Scanner;
 import java.text.Normalizer;
 
+class valoresEntrada {
+    private int numeroLados;
+    private double base;
+    private double altura;
+    private double lado;
+    private double radio;
+    public double getRadio(){
+        return radio;
+    }
+    public double parametroCircunferencia(double radioUsuario) {
+        this.radio = radioUsuario;
+        return 0;
+    }
+
+}
+
 class CalculadoraAreas {
     public double areaCirculo(double radio) {
+
         return Math.PI * Math.pow(radio, 2);
     }
     public double areaTriangulo(double base, double altura) {
+
         return (base * altura)/2;
     }
     public double areaRectangulo(double base, double altura) {
+
         return base * altura;
     }
     public double areaCuadrado(double lado) {
@@ -27,7 +45,6 @@ class CalculadoraAreas {
         return area;
     }
 }
-
 
 class ProcesarFiguras {
     CalculadoraAreas triangulo = new CalculadoraAreas();
@@ -79,6 +96,7 @@ class ProcesarFiguras {
         return area;
     }
 }
+
 class EntradaDatos {
     Scanner sc = new Scanner(System.in);
     ModificadorEntradaDatos EntradaDatos = new ModificadorEntradaDatos();
@@ -91,38 +109,39 @@ class EntradaDatos {
 
     public double[] parametrosTriangulo() {
         System.out.print("Introduzca el valor de la base: ");
-        double baseT = Double.parseDouble(sc.nextLine());
+        double baseT = Math.abs(Double.parseDouble(sc.nextLine()));
         System.out.print("Introduzca el valor de la altura: ");
-        double alturaT = Double.parseDouble(sc.nextLine());
+        double alturaT = Math.abs(Double.parseDouble(sc.nextLine()));
         return new double[]{baseT, alturaT};
     }
 
     public double[] parametrosCuadrado() {
         System.out.print("Introduzca el valor del lado: ");
-        double lado = Double.parseDouble(sc.nextLine());
+        double lado = Math.abs(Double.parseDouble(sc.nextLine()));
         return new double [] {lado};
     }
     public double [] parametrosRectangulo() {
         System.out.print("Introduzca el valor de la base: ");
-        double baseR =  Double.parseDouble(sc.nextLine());
+        double baseR = Math.abs(Double.parseDouble(sc.nextLine()));
         System.out.print("Introduzca el valor de la altura: ");
-        double alturaR =  Double.parseDouble(sc.nextLine());
+        double alturaR = Math.abs(Double.parseDouble(sc.nextLine()));
         return new double[] {baseR, alturaR};
     }
     public double[] parametrosCirculo() {
         System.out.print("Introduzca el valor del radio: ");
-        double radio = Double.parseDouble(sc.nextLine());
+        double radio = Math.abs(Double.parseDouble(sc.nextLine()));
         return new double[]{radio};
     }
     public Object [] parametrosPoligonoRegular() {
         System.out.println("Introduzca el número de lados: ");
-        int numeroLados = Integer.parseInt(sc.nextLine());
+        int numeroLados = Math.abs(Integer.parseInt(sc.nextLine()));
         System.out.println("Introduzca la longitud del lado: ");
-        double ladoP = Double.parseDouble(sc.nextLine());
+        double ladoP = Math.abs(Double.parseDouble(sc.nextLine()));
         System.out.println("La apotema se calcula automáticamente");
         return new Object[]{numeroLados, ladoP};
     }
 }
+
 class ModificadorEntradaDatos {
     private static String normalizarEntradaDatos(String EntradaDatos) {
         // Con NFD se separa la letra en cuestión del carácter diacrítico (ejemplo: 'á' pasa a ser 'a' '´')
@@ -185,7 +204,6 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Error de EntradaDatos: " + e.getMessage());
         }
-
         sc.close();
     }
 }
