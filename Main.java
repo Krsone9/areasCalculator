@@ -4,15 +4,12 @@ import java.text.Normalizer;
 
 class CalculadoraAreas {
     public double areaCirculo(double radio) {
-
         return Math.PI * Math.pow(radio, 2);
     }
     public double areaTriangulo(double base, double altura) {
-
         return (base * altura)/2;
     }
     public double areaRectangulo(double base, double altura) {
-
         return base * altura;
     }
     public double areaCuadrado(double lado) {
@@ -31,51 +28,43 @@ class CalculadoraAreas {
 }
 
 class ProcesarFiguras {
-    CalculadoraAreas triangulo = new CalculadoraAreas();
-    CalculadoraAreas cuadrado = new CalculadoraAreas();
-    CalculadoraAreas rectangulo = new CalculadoraAreas();
-    CalculadoraAreas circulo = new CalculadoraAreas();
-    CalculadoraAreas poligonoRegular = new CalculadoraAreas();
-    EntradaDatos paramTriangulo = new EntradaDatos();
-    EntradaDatos paramCuadrado = new EntradaDatos();
-    EntradaDatos paramRectangulo = new EntradaDatos();
-    EntradaDatos paramCirculo = new EntradaDatos();
-    EntradaDatos paramPoligonoRegular = new EntradaDatos();
+    CalculadoraAreas figura = new CalculadoraAreas();
+    EntradaDatos parametros = new EntradaDatos();
 
     public double procesarTriangulo() {
-        double [] datos = paramTriangulo.parametrosTriangulo();
-        double area = triangulo.areaTriangulo(datos[0], datos[1]);
-        System.out.print("Área del triángulo: ");
+        double [] datos = parametros.parametrosTriangulo();
+        double area = figura.areaTriangulo(datos[0], datos[1]);
+        System.out.println("Área del triángulo: ");
         System.out.println(area);
         return area;
     }
     public double procesarCuadrado() {
-        double [] datos = paramCuadrado.parametrosCuadrado();
-        double area = cuadrado.areaCuadrado(datos[0]);
-        System.out.print("Área del cuadrado: ");
+        double [] datos = parametros.parametrosCuadrado();
+        double area = figura.areaCuadrado(datos[0]);
+        System.out.println("Área del cuadrado: ");
         System.out.println(area);
         return area;
     }
     public double procesarRectangulo() {
-        double[] datos = paramRectangulo.parametrosRectangulo();
-        double area = rectangulo.areaRectangulo(datos[0], datos[1]);
-        System.out.print("Área del rectángulo: ");
+        double[] datos = parametros.parametrosRectangulo();
+        double area = figura.areaRectangulo(datos[0], datos[1]);
+        System.out.println("Área del rectángulo: ");
         System.out.println(area);
         return area;
     }
     public double procesarCirculo() {
-        double[] datos = paramCirculo.parametrosCirculo();
-        double area = circulo.areaCirculo(datos[0]);
-        System.out.print("Área del círculo: ");
+        double[] datos = parametros.parametrosCirculo();
+        double area = figura.areaCirculo(datos[0]);
+        System.out.println("Área del círculo: ");
         System.out.println(area);
         return area;
     }
     public double procesarPoligonoRegular() {
-        Object[] datos = paramPoligonoRegular.parametrosPoligonoRegular();
+        Object[] datos = parametros.parametrosPoligonoRegular();
         int numeroLados = (int) datos[0];
         double lado = (double) datos[1];
-        double area = poligonoRegular.areaPoligonoRegular(numeroLados, lado).doubleValue();
-        System.out.print("Área del polígono regular: ");
+        double area = figura.areaPoligonoRegular(numeroLados, lado).doubleValue();
+        System.out.println("Área del polígono regular: ");
         System.out.println(area);
         return area;
     }
@@ -92,27 +81,27 @@ class EntradaDatos {
     }
 
     public double[] parametrosTriangulo() {
-        System.out.print("Introduzca el valor de la base: ");
+        System.out.println("Introduzca el valor de la base: ");
         double baseT = Math.abs(Double.parseDouble(sc.nextLine()));
-        System.out.print("Introduzca el valor de la altura: ");
+        System.out.println("Introduzca el valor de la altura: ");
         double alturaT = Math.abs(Double.parseDouble(sc.nextLine()));
         return new double[]{baseT, alturaT};
     }
 
     public double[] parametrosCuadrado() {
-        System.out.print("Introduzca el valor del lado: ");
+        System.out.println("Introduzca el valor del lado: ");
         double lado = Math.abs(Double.parseDouble(sc.nextLine()));
         return new double [] {lado};
     }
     public double [] parametrosRectangulo() {
-        System.out.print("Introduzca el valor de la base: ");
+        System.out.println("Introduzca el valor de la base: ");
         double baseR = Math.abs(Double.parseDouble(sc.nextLine()));
-        System.out.print("Introduzca el valor de la altura: ");
+        System.out.println("Introduzca el valor de la altura: ");
         double alturaR = Math.abs(Double.parseDouble(sc.nextLine()));
         return new double[] {baseR, alturaR};
     }
     public double[] parametrosCirculo() {
-        System.out.print("Introduzca el valor del radio: ");
+        System.out.println("Introduzca el valor del radio: ");
         double radio = Math.abs(Double.parseDouble(sc.nextLine()));
         return new double[]{radio};
     }
@@ -177,16 +166,16 @@ public class Main {
                             procesador.procesarPoligonoRegular();
                             break;
                         default:
-                            System.out.println("EntradaDatos no válida. Por favor, inténtelo de nuevo.");
+                            System.out.println("Entrada no válida. Por favor, inténtelo de nuevo.");
                             continue;
                     }
                     break;
                 } else {
-                    System.out.println("EntradaDatos vacía.");
+                    System.out.println("Entrada vacía.");
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error de EntradaDatos: " + e.getMessage());
+            System.out.println("Error de entrada: " + e.getMessage());
         }
         sc.close();
     }
